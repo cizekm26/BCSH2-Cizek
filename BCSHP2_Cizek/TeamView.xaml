@@ -1,0 +1,66 @@
+﻿<Window x:Class="BCSH2_Cizek.TeamView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BCSHP2_Cizek"
+        mc:Ignorable="d"
+        Title="TeamView" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="Title" TargetType="Label">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style x:Key="ListTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Content="Název týmu" Style="{StaticResource ResourceKey=Title}"/>
+        <StackPanel Grid.Column="1">
+            <Label>Soutěž:</Label>
+            <Label>Pořadí:</Label>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Label Style="{StaticResource ResourceKey=ListTitle}">Zápasy</Label>
+            <Button Height="20">Upravit zápas</Button>
+        </StackPanel>
+        <ListView Grid.Row="2" x:Name="lstMatches" ItemsSource="{Binding Team.Matches}" SelectedValue="{Binding SelectedPlayer}" Margin="0,0,5,0">
+            <ListView.View>
+                <GridView ColumnHeaderToolTip="Seznam zápasů">
+                    <GridViewColumn Header="ID" Width="50"/>
+                    <GridViewColumn Header="Jméno" Width="100"/>
+                    <GridViewColumn Header="Příjmení" Width="100"/>
+                    <GridViewColumn Header="Věk" Width="50"/>
+                    <GridViewColumn Header="Góly" Width="50"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+            <Label Style="{StaticResource ResourceKey=ListTitle}">Hráči</Label>
+            <Button Height="20">Upravit hráči</Button>
+        </StackPanel>
+        <ListView Grid.Column="1" Grid.Row="2" x:Name="lstPlayers" ItemsSource="{Binding Team.Players}" SelectedValue="{Binding SelectedPlayer}" Margin="0,0,5,0">
+            <ListView.View>
+                <GridView ColumnHeaderToolTip="Seznam hráčů">
+                    <GridViewColumn Header="ID" Width="50"/>
+                    <GridViewColumn Header="Jméno" Width="100"/>
+                    <GridViewColumn Header="Příjmení" Width="100"/>
+                    <GridViewColumn Header="Věk" Width="50"/>
+                    <GridViewColumn Header="Góly" Width="50"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>

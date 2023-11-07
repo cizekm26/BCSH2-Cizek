@@ -5,8 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BCSHP2_Cizek"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Správce týmů" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260*" />
+            <ColumnDefinition Width="520*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="1" Margin="0,0,0,388" Grid.RowSpan="2">Týmy</Label>
+        <ListView Grid.Column="1" Grid.Row="1" x:Name="lstTeams" ItemsSource="{Binding Teams}" SelectedValue="{Binding SelectedTeam}">
+            <ListView.View>
+                <GridView ColumnHeaderToolTip="Seznam týmů">
+                    <GridViewColumn DisplayMemberBinding="{Binding TeamId}" Header="ID" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Název" Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Competition}" Header="Soutěž" Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Ranking}" Header="Umístění" Width="50"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Row="1" Margin="5,0,10,0">
+            <Label>Název:</Label>
+            <TextBox x:Name="txtName" Text="{Binding SelectedTeam.Name}" />
+            <Label>Soutěž:</Label>
+            <TextBox x:Name="textCompetition" Text="{Binding SelectedTeam.Competition}"/>
+            <Label>Pořadí:</Label>
+            <TextBox x:Name="textRanking" Text="{Binding SelectedTeam.Ranking}"/>
+            <Button Command="{Binding AddCommand}" x:Name="btnAdd" Margin="0,5,0,0">Přidat tým</Button>
+            <Button Command="{Binding RemoveCommand}" x:Name="btnDelete" Margin="0,5,0,0">Smaž tým</Button>
+            <Button Command="{Binding ManageCommand}" x:Name="btnManage" Margin="0,5,0,0">Spravovat tým</Button>
+        </StackPanel>
     </Grid>
 </Window>
