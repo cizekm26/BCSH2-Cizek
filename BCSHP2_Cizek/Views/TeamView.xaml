@@ -27,14 +27,21 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Content="Název týmu" Style="{StaticResource ResourceKey=Title}"/>
+        <StackPanel HorizontalAlignment="Left">
+            <Button Content="Zpět na přehled" Width="100"/>
+            <Label Content="{Binding Team.Name}" Style="{StaticResource ResourceKey=Title}"/>
+        </StackPanel>
         <StackPanel Grid.Column="1">
             <Label>Soutěž:</Label>
+            <Label Content="{Binding Team.Competition}"/>
             <Label>Pořadí:</Label>
+            <Label Content="{Binding Team.Ranking}"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Label Style="{StaticResource ResourceKey=ListTitle}">Zápasy</Label>
-            <Button Height="20">Upravit zápas</Button>
+            <Button Margin ="0,0,5,0" Height="20">Vytvořit</Button>
+            <Button Margin ="0,0,5,0" Height="20">Smazat</Button>
+            <Button Margin ="0,0,5,0" Height="20">Upravit</Button>
         </StackPanel>
         <ListView Grid.Row="2" x:Name="lstMatches" ItemsSource="{Binding Team.Matches}" SelectedValue="{Binding SelectedPlayer}" Margin="0,0,5,0">
             <ListView.View>
@@ -49,7 +56,9 @@
         </ListView>
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
             <Label Style="{StaticResource ResourceKey=ListTitle}">Hráči</Label>
-            <Button Height="20">Upravit hráči</Button>
+            <Button Margin ="0,0,5,0" Height="20">Vytvořit</Button>
+            <Button Margin ="0,0,5,0" Height="20">Smazat</Button>
+            <Button Margin ="0,0,5,0" Height="20">Upravit</Button>
         </StackPanel>
         <ListView Grid.Column="1" Grid.Row="2" x:Name="lstPlayers" ItemsSource="{Binding Team.Players}" SelectedValue="{Binding SelectedPlayer}" Margin="0,0,5,0">
             <ListView.View>

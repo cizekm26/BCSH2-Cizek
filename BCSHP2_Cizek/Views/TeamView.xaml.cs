@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BCSHP2_Cizek;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TeamsLibrary;
 
 namespace BCSH2_Cizek
 {
@@ -19,9 +21,10 @@ namespace BCSH2_Cizek
     /// </summary>
     public partial class TeamView : Window
     {
-        public TeamView()
+        public TeamView(Team team)
         {
             InitializeComponent();
+            DataContext = new TeamViewModel(team);
         }
     }
 }

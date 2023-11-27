@@ -6,9 +6,6 @@
         xmlns:local="clr-namespace:BCSHP2_Cizek"
         mc:Ignorable="d"
         Title="Správce týmů" Height="450" Width="800">
-    <Window.DataContext>
-        <local:MainWindowViewModel/>
-    </Window.DataContext>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -35,11 +32,11 @@
             <TextBox x:Name="txtName" Text="{Binding SelectedTeam.Name}" />
             <Label>Soutěž:</Label>
             <TextBox x:Name="textCompetition" Text="{Binding SelectedTeam.Competition}"/>
-            <Label>Pořadí:</Label>
+            <Label>Umístění:</Label>
             <TextBox x:Name="textRanking" Text="{Binding SelectedTeam.Ranking}"/>
-            <Button Command="{Binding AddCommand}" x:Name="btnAdd" Margin="0,5,0,0">Přidat tým</Button>
+            <Button Command="{Binding AddCommand}" x:Name="btnAdd" Margin="0,50,0,0">Přidat tým</Button>
             <Button Command="{Binding RemoveCommand}" x:Name="btnDelete" Margin="0,5,0,0">Smaž tým</Button>
-            <Button Command="{Binding ManageCommand}" x:Name="btnManage" Margin="0,5,0,0">Spravovat tým</Button>
+            <Button Command="{Binding ShowTeamCommand}" x:Name="btnShow" Margin="0,5,0,0">Spravovat tým</Button>
         </StackPanel>
     </Grid>
 </Window>

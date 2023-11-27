@@ -20,7 +20,7 @@ namespace BCSHP2_Cizek
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(RemoveCommand))]
-        private Team selectedTeam;
+        private Team? selectedTeam;
 
         [ObservableProperty]
         private ObservableCollection<Team> teams;
@@ -43,9 +43,9 @@ namespace BCSHP2_Cizek
         }
 
         [RelayCommand]
-        public void Manage()
+        public void ShowTeam()
         {
-            var window = new TeamView();
+            var window = new TeamView(SelectedTeam);
             window.Show();
         }
 

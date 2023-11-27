@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using BCSH2_Cizek;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +15,16 @@ namespace BCSHP2_Cizek
     {
         [ObservableProperty]
         private Team team;
-
-        public TeamViewModel()
-        {
-            team = null;
-        }
         public TeamViewModel(Team team)
         {
             this.team = team;
+        }
+
+        [RelayCommand]
+        public void ShowMainWindow()
+        {
+            var window = new MainWindow();
+            window.Show();
         }
     }
 }
