@@ -8,7 +8,7 @@ namespace TeamsLibrary
 {
     public class Goal
     {
-        public int GoalId { get; set; }
+        public int ID { get; set; }
         public int Minute { get; set; }
         public Player? Scorer { get; set; }
 

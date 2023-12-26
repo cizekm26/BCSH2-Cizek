@@ -8,7 +8,7 @@ namespace TeamsLibrary
 {
     public class Team
     {
-        public int TeamId { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public int Ranking { get; set; }
         public string Competition { get; set; }
@@ -16,9 +16,8 @@ namespace TeamsLibrary
         public List<Player> Players { get; set; }
         public List<Match> Matches { get; set; }
 
-        public Team(int id ,string name, int ranking, string competition)
+        public Team(string name, int ranking, string competition)
         {
-            TeamId = id;
             Name = name;
             Ranking = ranking;
             Competition = competition;

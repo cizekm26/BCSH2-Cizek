@@ -6,24 +6,28 @@ using System.Threading.Tasks;
 
 namespace TeamsLibrary
 {
+    public enum MatchType
+    {
+        Home, Away
+    }
     public class Match
     {
-        public int MatchId { get; set; }
         public string Opponent { get; set; }
-        public DateTime MatchStart { get; set; }
-        public int TeamGoalsCount { get; set; }
-        public int OppGoalsCount { get; set; }
-        public List<Goal> TeamGoals { get; set; }
+        public DateTime Date { get; set; }
+        public int TeamGoals { get; set; }
+        public int OppGoals { get; set; }
+        public List<Goal> Goals { get; set; }
+        public MatchType Type { get; set; }
         public bool IsFinished { get; set; }
 
-        public Match(string opponent, DateTime matchStart)
+        public Match(string opponent, DateTime matchDate, MatchType matchType)
         {
             Opponent = opponent;
-            MatchStart = matchStart;
-            TeamGoalsCount = 0;
-            OppGoalsCount = 0;
+            Date = matchDate;
+            TeamGoals = 0;
+            OppGoals = 0;
             IsFinished = false;
-            TeamGoals = new List<Goal>();
+            Goals = new List<Goal>();
         }
     }
 }

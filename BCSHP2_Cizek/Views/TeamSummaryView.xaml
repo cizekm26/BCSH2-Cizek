@@ -39,31 +39,26 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Label Style="{StaticResource ResourceKey=ListTitle}">Zápasy</Label>
-            <Button Margin ="0,0,5,0" Height="20">Vytvořit</Button>
-            <Button Margin ="0,0,5,0" Height="20">Smazat</Button>
+            <Button Margin ="200,0,5,0" Height="20">Zobrazit</Button>
             <Button Margin ="0,0,5,0" Height="20">Upravit</Button>
         </StackPanel>
         <ListView Grid.Row="2" x:Name="lstMatches" ItemsSource="{Binding Team.Matches}" SelectedValue="{Binding SelectedPlayer}" Margin="0,0,5,0">
             <ListView.View>
                 <GridView ColumnHeaderToolTip="Seznam zápasů">
-                    <GridViewColumn Header="ID" Width="50"/>
-                    <GridViewColumn Header="Jméno" Width="100"/>
-                    <GridViewColumn Header="Příjmení" Width="100"/>
-                    <GridViewColumn Header="Věk" Width="50"/>
+                    <GridViewColumn Header="Datum" Width="100"/>
+                    <GridViewColumn Header="Soupeř" Width="100"/>
                     <GridViewColumn Header="Góly" Width="50"/>
                 </GridView>
             </ListView.View>
         </ListView>
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
             <Label Style="{StaticResource ResourceKey=ListTitle}">Hráči</Label>
-            <Button Margin ="0,0,5,0" Height="20">Vytvořit</Button>
-            <Button Margin ="0,0,5,0" Height="20">Smazat</Button>
+            <Button Margin ="200,0,5,0" Height="20">Zobrazit</Button>
             <Button Margin ="0,0,5,0" Height="20">Upravit</Button>
         </StackPanel>
         <ListView Grid.Column="1" Grid.Row="2" x:Name="lstPlayers" ItemsSource="{Binding Team.Players}" SelectedValue="{Binding SelectedPlayer}" Margin="0,0,5,0">
             <ListView.View>
                 <GridView ColumnHeaderToolTip="Seznam hráčů">
-                    <GridViewColumn Header="ID" Width="50"/>
                     <GridViewColumn Header="Jméno" Width="100"/>
                     <GridViewColumn Header="Příjmení" Width="100"/>
                     <GridViewColumn Header="Věk" Width="50"/>

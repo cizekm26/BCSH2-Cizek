@@ -1,0 +1,43 @@
+﻿<Window x:Class="BCSH2_Cizek.CreatePlayerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BCSH2_Cizek"
+        mc:Ignorable="d"
+        Title="PlayersView" Height="360" Width="500
+        ">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1" />
+            <RowDefinition Height="auto" MinHeight="339.658" />
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260*" />
+            <ColumnDefinition Width="520*" />
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Column="1" Grid.Row="1" x:Name="lstTeams" ItemsSource="{Binding Players}" SelectedValue="{Binding SelectedPlayer, Mode=TwoWay}">
+            <ListView.View>
+                <GridView x:Name="gridView" ColumnHeaderToolTip="Soupiska">
+                    <GridViewColumn DisplayMemberBinding="{Binding FirstName}" Header="Jméno" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding LastName}" Header="Příjmení" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Age}" Header="Věk" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding GoalsScored}" Header="Počet gólů" Width="80"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Row="1" Margin="5,0,10,0">
+            <Label>Jméno:</Label>
+            <TextBox x:Name="textName" Text="{Binding FirstName}" />
+            <Label>Příjmení:</Label>
+            <TextBox x:Name="textLastName" Text="{Binding LastName}"/>
+            <Label>Věk:</Label>
+            <TextBox x:Name="textRanking" Text="{Binding Age}"/>
+            <Button Command="{Binding AddCommand}" x:Name="btnAdd" Margin="0,50,0,0">Přidat</Button>
+            <Button Command="{Binding RemoveCommand}" x:Name="btnDelete" Margin="0,5,0,0">Odstranit</Button>
+            <Button Command="{Binding EditCommand}" x:Name="btnUpdate" Margin="0,5,0,0">Upravit</Button>
+        </StackPanel>
+    </Grid>
+</Window>

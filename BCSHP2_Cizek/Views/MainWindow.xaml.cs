@@ -13,18 +13,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TeamsLibrary;
 
-namespace BCSHP2_Cizek
+namespace BCSH2_Cizek.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainWindowViewModel _viewModel;
         public MainWindow()
         {
-            DataContext = new MainWindowViewModel();
+            TeamRepository teamRepository = new TeamRepository();
+            _viewModel = new MainWindowViewModel(teamRepository);
+            DataContext = _viewModel;
             InitializeComponent();
         }
+
+
     }
 }
