@@ -1,4 +1,5 @@
-﻿using BCSHP2_Cizek;
+﻿using BCSH2_Cizek.ViewModel;
+using BCSHP2_Cizek;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +15,38 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TeamsLibrary;
 
-namespace BCSH2_Cizek
+namespace BCSH2_Cizek.Views
 {
     /// <summary>
-    /// Interaction logic for TeamView.xaml
+    /// Interaction logic for TeamSummaryView.xaml
     /// </summary>
-    public partial class TeamView : Window
+    public partial class TeamSummaryView : Window
     {
-        public TeamView(Team team)
+        private Team team;
+        public TeamSummaryView(Team team, ITeamRepository teamRepository)
         {
             InitializeComponent();
-            DataContext = new TeamViewModel(team);
+            this.team = team;
+            DataContext = new TeamSummaryViewModel(team, teamRepository);
+            PlayersView playersView = new(new PlayersViewModel(team, teamRepository));
+            MatchesView matchesView = new(new MatchesViewModel(team, teamRepository));
+
+            TabItem playersTab = new()
+            {
+                Content = playersView,
+                Name = "Players",
+                Header = "Spravovat hráče"
+            };
+            TabItem matchesTab = new()
+            {
+                Content = matchesView,
+                Name="Matches",
+                Header = "Spravovat zápasy"
+            };
+
+            tabControl.Items.Add(playersTab);
+            tabControl.Items.Add(matchesTab);
+
         }
     }
 }

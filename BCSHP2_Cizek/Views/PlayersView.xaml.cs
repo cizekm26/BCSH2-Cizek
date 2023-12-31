@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BCSH2_Cizek.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,17 +12,26 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TeamsLibrary;
 
-namespace BCSH2_Cizek
+namespace BCSH2_Cizek.Views
 {
     /// <summary>
-    /// Interaction logic for CreatePlayerView.xaml
+    /// Interaction logic for PlayersView.xaml
     /// </summary>
-    public partial class CreatePlayerView : Window
+    public partial class PlayersView : UserControl
     {
-        public CreatePlayerView()
+        private PlayersViewModel viewModel;
+        public PlayersView(PlayersViewModel viewModel)
         {
+            this.viewModel = viewModel;
+            DataContext = viewModel;
             InitializeComponent();
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            viewModel.OnSelectedItemChanged();
         }
     }
 }

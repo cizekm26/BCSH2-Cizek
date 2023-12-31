@@ -1,16 +1,16 @@
-﻿<Window x:Class="BCSH2_Cizek.MatchesView"
+﻿<UserControl x:Class="BCSH2_Cizek.Views.MatchesView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BCSH2_Cizek"
+        xmlns:local="clr-namespace:BCSHP2_Cizek"
         mc:Ignorable="d"
-        Title="MatchesView" Height="400" Width="600
+        Height="550" Width="600
         ">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1" />
-            <RowDefinition Height="auto" MinHeight="339.658" />
+            <RowDefinition Height="auto" MinHeight="500" />
 
         </Grid.RowDefinitions>
 
@@ -19,32 +19,42 @@
             <ColumnDefinition Width="520*" />
         </Grid.ColumnDefinitions>
         <Label Grid.Column="1" Grid.RowSpan="2">Zápasy</Label>
-        <ListView Grid.Column="1" Grid.Row="1" x:Name="lstTeams" ItemsSource="{Binding Matches}" SelectedValue="{Binding SelectedMatch, Mode=TwoWay}">
+        <ListView Grid.Column="1" Grid.Row="1" x:Name="lstTeams" ItemsSource="{Binding Matches}" SelectionChanged="ListView_SelectionChanged" SelectedValue="{Binding SelectedMatch, Mode=TwoWay}">
             <ListView.View>
                 <GridView x:Name="gridView" ColumnHeaderToolTip="Seznam zápasů">
                     <GridViewColumn DisplayMemberBinding="{Binding Type}" Header="" Width="50"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Datum" Width="50"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Opponent}" Header="Soupeř" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding TeamGoals}" Header="Góly týmu" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding OppGoals}" Header="Góly soupeře" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding GoalsScored}" Header="Góly týmu" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding GoalsAgainst}" Header="Góly soupeře" Width="100"/>
                 </GridView>
             </ListView.View>
         </ListView>
         <StackPanel Grid.Row="1" Margin="5,0,10,0">
             <Label>Soupeř:</Label>
             <TextBox x:Name="txtOpp" Text="{Binding Opponent}" />
+            <Label>Doma/venku:</Label>
+            <ComboBox x:Name="comboType" SelectedItem="{Binding Type}" />
             <Label>Datum:</Label>
-            <TextBox x:Name="textDate" Text="{Binding Date}"/>
-            <CheckBox Margin="0,5,0,5" x:Name="checkBoxFinished" Content="Byl dohrán"/>
-            <StackPanel>
+            <DatePicker x:Name="textDate" SelectedDate="{Binding Path=Date, Mode=TwoWay}"/>
+            <CheckBox Margin="0,5,0,5" x:Name="checkBoxFinished" Content="Byl dohrán" IsChecked="{Binding IsFinished}"/>
+            <StackPanel IsEnabled="{Binding IsFinished}">
                 <Label>Góly týmu:</Label>
-                <TextBox x:Name="textRanking" Text="{Binding TeamGoals}"/>
+                <TextBox TextChanged="TextGoals_TextChanged" x:Name="textGoalsScored" Text="{Binding GoalsScored}"/>
                 <Label>Góly soupeře:</Label>
-                <TextBox x:Name="textOppGoals" Text="{Binding OppGoals}"/>
+                <TextBox x:Name="textOppGoals" Text="{Binding GoalsAgainst}"/>
+                <Label>Střelci gólů:</Label>
+                <DataGrid x:Name="dataGoals" MaxHeight="80" AutoGenerateColumns="False" ItemsSource="{Binding Goals}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Order}" Header="#" Width="20"/>
+                        <DataGridTextColumn Binding="{Binding Minute}" Header="Minuta" Width="50"/>
+                        <DataGridComboBoxColumn SelectedValueBinding="{Binding Scorer, Mode=TwoWay}" DisplayMemberPath="LastName" ItemsSource="{Binding Players}" x:Name="comboBoxScorer" Header="Střelec" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
             <Button Command="{Binding AddCommand}" x:Name="btnAdd" Margin="0,50,0,0">Přidat</Button>
             <Button Command="{Binding RemoveCommand}" x:Name="btnDelete" Margin="0,5,0,0">Odstranit</Button>
             <Button Command="{Binding EditCommand}" x:Name="btnUpdate" Margin="0,5,0,0">Upravit</Button>
         </StackPanel>
     </Grid>
-</Window>
+</UserControl>

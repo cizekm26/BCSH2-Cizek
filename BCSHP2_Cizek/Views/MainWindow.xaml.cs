@@ -22,15 +22,18 @@ namespace BCSH2_Cizek.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainWindowViewModel _viewModel;
+        private readonly MainViewModel viewModel;
         public MainWindow()
         {
             TeamRepository teamRepository = new TeamRepository();
-            _viewModel = new MainWindowViewModel(teamRepository);
-            DataContext = _viewModel;
+            viewModel = new MainViewModel(teamRepository);
+            DataContext = viewModel;
             InitializeComponent();
         }
 
-
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            viewModel.OnSelectedItemChanged();
+        }
     }
 }
