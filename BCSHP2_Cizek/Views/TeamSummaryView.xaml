@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BCSH2_Cizek.Views"
         mc:Ignorable="d"
-        Title="TeamSummaryView" Height="550" Width="800">
+        Title="TeamSummaryView" Height="550" Width="800"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="Title" TargetType="Label">
             <Setter Property="FontSize" Value="20"/>
@@ -15,10 +16,13 @@
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
+        <Style x:Key="LabelText" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
     </Window.Resources>
     <TabControl x:Name="tabControl">
         <TabItem x:Name="TeamSummary" Header="Souhrn týmu">
-            <Grid>
+            <Grid Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
@@ -34,26 +38,27 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <StackPanel Orientation="Horizontal">
-                        <Label>Soutěž:</Label>
+                        <Label Style="{StaticResource ResourceKey=LabelText}">Soutěž:</Label>
                         <Label Content="{Binding Team.Competition}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label>Pořadí:</Label>
+                        <Label Style="{StaticResource ResourceKey=LabelText}">Pořadí:</Label>
                         <Label Content="{Binding Team.Ranking}"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <Label Style="{StaticResource ResourceKey=ListTitle}">Zápasy</Label>
-                    <Button Margin ="250,0,5,0" Height="20" Command="{Binding RefreshMatchesCommand}">Aktualizovat</Button>
+                    <Button Margin="150,0,5,0" Height="20" Command="{Binding ShowMatchCommand}">Zobrazit zápas</Button>
+                    <Button Margin ="5,0,5,0" Height="20" Command="{Binding RefreshMatchesCommand}">Aktualizovat</Button>
                 </StackPanel>
-                <ListView Grid.Row="2" x:Name="lstMatches" ItemsSource="{Binding MatchesTeam}" Margin="0,0,5,0">
+                <ListView Grid.Row="2" x:Name="lstMatches" ItemsSource="{Binding TeamMatches}" SelectedValue="{Binding SelectedMatch}" Margin="0,0,5,0">
                     <ListView.View>
                         <GridView ColumnHeaderToolTip="Seznam zápasů">
-                            <GridViewColumn Header="Datum" Width="100" DisplayMemberBinding="{Binding Type}"/>
-                            <GridViewColumn Header="Datum" Width="100" DisplayMemberBinding="{Binding Date}"/>
-                            <GridViewColumn Header="Soupeř" Width="100" DisplayMemberBinding="{Binding Opponent}"/>
-                            <GridViewColumn Header="Vstřelené góly" Width="100" DisplayMemberBinding="{Binding GoalsScored}"/>
-                            <GridViewColumn Header="Obdržené góly" Width="100" DisplayMemberBinding="{Binding GoalsScored}"/>
+                            <GridViewColumn Header="" Width="50" DisplayMemberBinding="{Binding Type}"/>
+                            <GridViewColumn Header="Datum" Width="80" DisplayMemberBinding="{Binding Date}"/>
+                            <GridViewColumn Header="Soupeř" Width="80" DisplayMemberBinding="{Binding Opponent}"/>
+                            <GridViewColumn Header="Vstřelené góly" Width="80" DisplayMemberBinding="{Binding GoalsScored}"/>
+                            <GridViewColumn Header="Obdržené góly" Width="90" DisplayMemberBinding="{Binding GoalsScored}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -61,13 +66,13 @@
                     <Label Style="{StaticResource ResourceKey=ListTitle}">Hráči</Label>
                     <Button Margin ="250,0,5,0" Height="20" Command="{Binding RefreshPlayersCommand}">Aktualizovat</Button>
                 </StackPanel>
-                <ListView Grid.Column="1" Grid.Row="2" x:Name="lstPlayers" ItemsSource="{Binding PlayersTeam}" Margin="0,0,5,0">
+                <ListView Grid.Column="1" Grid.Row="2" x:Name="lstPlayers" ItemsSource="{Binding TeamPlayers}" Margin="0,0,5,0">
                     <ListView.View>
                         <GridView ColumnHeaderToolTip="Seznam hráčů">
                             <GridViewColumn Header="Jméno" Width="100" DisplayMemberBinding="{Binding FirstName}"/>
                             <GridViewColumn Header="Příjmení" Width="100" DisplayMemberBinding="{Binding LastName}"/>
                             <GridViewColumn Header="Věk" Width="50" DisplayMemberBinding="{Binding Age}"/>
-                            <GridViewColumn Header="Góly" Width="50" DisplayMemberBinding="{Binding Goals}"/>
+                            <GridViewColumn Header="Počet gólů" Width="100" DisplayMemberBinding="{Binding GoalsScored}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

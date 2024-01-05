@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Linq;
 using TeamsLibrary;
 
@@ -24,13 +25,15 @@ namespace BCSH2_Cizek.ViewModel
         private int age;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RemoveCommand))]
+        [NotifyCanExecuteChangedFor(nameof(EditCommand))]
         private Player selectedPlayer;
 
         [ObservableProperty]
         private ObservableCollection<Player> players;
 
-        private Team team;
-        private ITeamRepository _teamRepository;
+        private readonly Team team;
+        private readonly ITeamRepository _teamRepository;
 
         public PlayersViewModel(Team team, ITeamRepository repository) { 
             this.team = team;
@@ -41,16 +44,23 @@ namespace BCSH2_Cizek.ViewModel
         [RelayCommand]
         public void Add()
         {
-            Player player = new Player(FirstName, LastName, Age);
-            player.TeamID = team.ID;
+            if (!InputIsValid()) {
+                ShowErrorMessage("Byly zadány neplatné údaje");
+                return;
+            }
+            Player player = new(FirstName, LastName, Age, team.ID);
             if (_teamRepository.AddPlayer(player))
             {
                 Players.Add(player);
             }
+            else
+            {
+                ShowErrorMessage("Přidání týmu se nepodařilo");
+            }
             OnPropertyChanged(nameof(team.Players));
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(PlayerIsSelected))]
         public void Remove()
         {
             if(SelectedPlayer!= null)
@@ -60,21 +70,35 @@ namespace BCSH2_Cizek.ViewModel
                     Players.Remove(SelectedPlayer);
                     OnPropertyChanged(nameof(team.Players));
                 }
+                else
+                {
+                    ShowErrorMessage("Smazání se nepodařilo");
+                }
             }
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(PlayerIsSelected))]
         public void Edit()
         {
+            if (!InputIsValid())
+            {
+                ShowErrorMessage("Byly zadány neplatné údaje");
+                return;
+            }
             if (SelectedPlayer!= null)
             {
                 SelectedPlayer.Age = Age;
                 SelectedPlayer.FirstName = FirstName;
                 SelectedPlayer.LastName = LastName;
-                _teamRepository.UpdatePlayer(SelectedPlayer);
+                if (!_teamRepository.UpdatePlayer(SelectedPlayer))
+                    ShowErrorMessage("Editace se nepodařila");
             }
         }
 
+        public bool PlayerIsSelected()
+        {
+            return SelectedPlayer!= null;
+        }
         public void OnSelectedItemChanged()
         {
             if (SelectedPlayer!= null)
@@ -83,6 +107,16 @@ namespace BCSH2_Cizek.ViewModel
                 LastName = SelectedPlayer.LastName;
                 Age = SelectedPlayer.Age;
             }
+        }
+
+        private bool InputIsValid()
+        {
+            return FirstName != null && LastName != null && FirstName.Length > 0 && LastName.Length > 0 && Age > 0;
+        }
+
+        private void ShowErrorMessage(string message)
+        {
+            MessageBox.Show(message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

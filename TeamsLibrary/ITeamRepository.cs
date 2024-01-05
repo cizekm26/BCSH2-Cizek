@@ -11,11 +11,9 @@ namespace TeamsLibrary
         bool Add(Team team);
         bool Update(Team team);
         bool Remove(Team team);
-
         bool AddPlayer(Player player);
         bool RemovePlayer(Player player);
         bool UpdatePlayer(Player player);
-
         bool AddMatch(Match match);
         bool RemoveMatch(Match match);
         bool UpdateMatch(Match match);

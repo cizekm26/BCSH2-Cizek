@@ -25,8 +25,7 @@ namespace BCSH2_Cizek.Views
         private readonly MainViewModel viewModel;
         public MainWindow()
         {
-            TeamRepository teamRepository = new TeamRepository();
-            viewModel = new MainViewModel(teamRepository);
+            viewModel = new MainViewModel(new TeamRepository());
             DataContext = viewModel;
             InitializeComponent();
         }

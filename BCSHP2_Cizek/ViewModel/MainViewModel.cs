@@ -13,18 +13,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using TeamsLibrary;
 
 namespace BCSHP2_Cizek
 {
-    [ObservableObject]
-    public partial class MainViewModel
+    public partial class MainViewModel : ObservableObject
     {
         private readonly ITeamRepository _teamRepository;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(RemoveCommand))]
-        private Team? selectedTeam;
+        [NotifyCanExecuteChangedFor(nameof(EditCommand))]
+        [NotifyCanExecuteChangedFor(nameof(ShowTeamCommand))]
+        private Team selectedTeam;
 
         [ObservableProperty]
         private string name;
@@ -46,48 +48,60 @@ namespace BCSHP2_Cizek
         [RelayCommand]
         public void Add()
         {
-            _teamRepository.Add(new Team(Name, Ranking, Competition));
+            if (!InputIsValid())
+            {
+                ShowErrorMessage("Byly zadány neplatné údaje");
+                return;
+            }
+            if (!_teamRepository.Add(new Team(Name, Ranking, Competition)))
+                ShowErrorMessage("Přidání týmu se nepodařilo");
         }
 
-        [RelayCommand(CanExecute = nameof(RemoveCanExecute))]
+        [RelayCommand(CanExecute = nameof(TeamIsSelected))]
         public void Remove()
         {
             if (SelectedTeam != null)
             {
-                _teamRepository.Remove(SelectedTeam);
+                if(!_teamRepository.Remove(SelectedTeam))
+                {
+                    ShowErrorMessage("Odstranění týmu se nepodařilo");
+                }
             }
+            
 
         }
-
-        [RelayCommand]
+        
+        [RelayCommand(CanExecute = nameof(TeamIsSelected))]
         public void Edit()
         {
+            if (!InputIsValid())
+            {
+                ShowErrorMessage("Byly zadány neplatné údaje");
+                return;
+            }
             if (SelectedTeam != null)
             {
                 SelectedTeam.Name = Name;
                 SelectedTeam.Ranking = Ranking;
                 SelectedTeam.Competition = Competition;
-                _teamRepository.Update(SelectedTeam);
+                if (!_teamRepository.Update(SelectedTeam))
+                {
+                    ShowErrorMessage("Editace se nepodařila");
+                }
             }
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(TeamIsSelected))]
         public void ShowTeam()
         {
             if (SelectedTeam != null)
             {
                 var window = new TeamSummaryView(SelectedTeam,_teamRepository);
-                window.Show();
+                window.ShowDialog();
             }
         }
 
-
-        public bool RemoveCanExecute()
-        {
-            return SelectedTeam!= null;
-        }
-
-        public bool ManageCanExecute()
+        public bool TeamIsSelected()
         {
             return SelectedTeam!= null;
         }
@@ -100,6 +114,16 @@ namespace BCSHP2_Cizek
                 Ranking = SelectedTeam.Ranking;
                 Competition = SelectedTeam.Competition;
             }
+        }
+
+        private bool InputIsValid()
+        {
+            return Name != null && Competition != null && Name.Length > 0 && Competition.Length > 0 && Ranking > 0;
+        }
+
+        private void ShowErrorMessage(string message)
+        {
+            MessageBox.Show(message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

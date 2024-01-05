@@ -22,11 +22,14 @@ namespace BCSH2_Cizek.Views
     /// </summary>
     public partial class TeamSummaryView : Window
     {
-        private Team team;
         public TeamSummaryView(Team team, ITeamRepository teamRepository)
         {
+            if (team== null)
+                throw new ArgumentNullException(nameof(team));
+            if (teamRepository== null)
+                throw new ArgumentNullException(nameof(teamRepository));
+
             InitializeComponent();
-            this.team = team;
             DataContext = new TeamSummaryViewModel(team, teamRepository);
             PlayersView playersView = new(new PlayersViewModel(team, teamRepository));
             MatchesView matchesView = new(new MatchesViewModel(team, teamRepository));
@@ -34,19 +37,17 @@ namespace BCSH2_Cizek.Views
             TabItem playersTab = new()
             {
                 Content = playersView,
-                Name = "Players",
+                Name = "PlayersTab",
                 Header = "Spravovat hráče"
             };
             TabItem matchesTab = new()
             {
                 Content = matchesView,
-                Name="Matches",
+                Name="MatchesTab",
                 Header = "Spravovat zápasy"
             };
-
             tabControl.Items.Add(playersTab);
             tabControl.Items.Add(matchesTab);
-
         }
     }
 }

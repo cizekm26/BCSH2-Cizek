@@ -7,18 +7,17 @@
         mc:Ignorable="d"
         Height="550" Width="500
         ">
+    <UserControl.Resources>
+        <Style x:Key="LabelText" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1" />
-            <RowDefinition Height="auto" MinHeight="500" />
-
-        </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260*" />
             <ColumnDefinition Width="520*" />
         </Grid.ColumnDefinitions>
-        <ListView Grid.Column="1" Grid.Row="1" x:Name="lstTeams" ItemsSource="{Binding Players}" SelectionChanged="ListView_SelectionChanged" SelectedValue="{Binding SelectedPlayer, Mode=TwoWay}">
+        <ListView Grid.Column="1" x:Name="lstTeams" ItemsSource="{Binding Players}" SelectionChanged="ListView_SelectionChanged" SelectedValue="{Binding SelectedPlayer, Mode=TwoWay}">
             <ListView.View>
                 <GridView x:Name="gridView" ColumnHeaderToolTip="Soupiska">
                     <GridViewColumn DisplayMemberBinding="{Binding FirstName}" Header="Jméno" Width="100"/>
@@ -28,12 +27,12 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="1" Margin="5,0,10,0">
-            <Label>Jméno:</Label>
+        <StackPanel Margin="5,0,10,0">
+            <Label Style="{StaticResource ResourceKey=LabelText}">Jméno:</Label>
             <TextBox x:Name="textName" Text="{Binding FirstName}" />
-            <Label>Příjmení:</Label>
+            <Label Style="{StaticResource ResourceKey=LabelText}">Příjmení:</Label>
             <TextBox x:Name="textLastName" Text="{Binding LastName}"/>
-            <Label>Věk:</Label>
+            <Label Style="{StaticResource ResourceKey=LabelText}">Věk:</Label>
             <TextBox x:Name="textRanking" Text="{Binding Age}"/>
             <Button Command="{Binding AddCommand}" x:Name="btnAdd" Margin="0,50,0,0">Přidat</Button>
             <Button Command="{Binding RemoveCommand}" x:Name="btnDelete" Margin="0,5,0,0">Odstranit</Button>

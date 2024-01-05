@@ -5,54 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BCSHP2_Cizek"
         mc:Ignorable="d"
-        Height="550" Width="600
-        ">
+        Height="550" Width="700">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="PlayersItems" Source="{Binding Players}" />
+        <Style x:Key="LabelText" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1" />
             <RowDefinition Height="auto" MinHeight="500" />
-
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260*" />
             <ColumnDefinition Width="520*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="1" Grid.RowSpan="2">Zápasy</Label>
-        <ListView Grid.Column="1" Grid.Row="1" x:Name="lstTeams" ItemsSource="{Binding Matches}" SelectionChanged="ListView_SelectionChanged" SelectedValue="{Binding SelectedMatch, Mode=TwoWay}">
+        <ListView Grid.Column="1" x:Name="lstTeams" ItemsSource="{Binding Matches}" SelectionChanged="ListView_SelectionChanged" SelectedValue="{Binding SelectedMatch, Mode=TwoWay}">
             <ListView.View>
                 <GridView x:Name="gridView" ColumnHeaderToolTip="Seznam zápasů">
                     <GridViewColumn DisplayMemberBinding="{Binding Type}" Header="" Width="50"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Datum" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Datum" Width="80"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Opponent}" Header="Soupeř" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding GoalsScored}" Header="Góly týmu" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding GoalsAgainst}" Header="Góly soupeře" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding GoalsScored}" Header="Vstřelené góly" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding GoalsAgainst}" Header="Obdržené góly" Width="100"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="1" Margin="5,0,10,0">
-            <Label>Soupeř:</Label>
+        <StackPanel Margin="5,0,10,0">
+            <Label Style="{StaticResource ResourceKey=LabelText}">Soupeř:</Label>
             <TextBox x:Name="txtOpp" Text="{Binding Opponent}" />
-            <Label>Doma/venku:</Label>
+            <Label Style="{StaticResource ResourceKey=LabelText}">Doma/venku:</Label>
             <ComboBox x:Name="comboType" SelectedItem="{Binding Type}" />
-            <Label>Datum:</Label>
+            <Label Style="{StaticResource ResourceKey=LabelText}">Datum:</Label>
             <DatePicker x:Name="textDate" SelectedDate="{Binding Path=Date, Mode=TwoWay}"/>
             <CheckBox Margin="0,5,0,5" x:Name="checkBoxFinished" Content="Byl dohrán" IsChecked="{Binding IsFinished}"/>
             <StackPanel IsEnabled="{Binding IsFinished}">
-                <Label>Góly týmu:</Label>
+                <Label Style="{StaticResource ResourceKey=LabelText}">Góly týmu:</Label>
                 <TextBox TextChanged="TextGoals_TextChanged" x:Name="textGoalsScored" Text="{Binding GoalsScored}"/>
-                <Label>Góly soupeře:</Label>
+                <Label Style="{StaticResource ResourceKey=LabelText}">Góly soupeře:</Label>
                 <TextBox x:Name="textOppGoals" Text="{Binding GoalsAgainst}"/>
-                <Label>Střelci gólů:</Label>
-                <DataGrid x:Name="dataGoals" MaxHeight="80" AutoGenerateColumns="False" ItemsSource="{Binding Goals}">
+                <Label Style="{StaticResource ResourceKey=LabelText}">Střelci gólů:</Label>
+                <DataGrid x:Name="dataGoals" MaxHeight="100" AutoGenerateColumns="False" ItemsSource="{Binding Goals}" CanUserAddRows="False" CanUserDeleteRows="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Order}" Header="#" Width="20"/>
                         <DataGridTextColumn Binding="{Binding Minute}" Header="Minuta" Width="50"/>
-                        <DataGridComboBoxColumn SelectedValueBinding="{Binding Scorer, Mode=TwoWay}" DisplayMemberPath="LastName" ItemsSource="{Binding Players}" x:Name="comboBoxScorer" Header="Střelec" Width="100"/>
+                        <DataGridTemplateColumn x:Name="comboScorer" Header="Střelec" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding DataContext.Players, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" SelectedItem="{Binding Scorer, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
-            <Button Command="{Binding AddCommand}" x:Name="btnAdd" Margin="0,50,0,0">Přidat</Button>
+            <Button Command="{Binding AddCommand}" x:Name="btnAdd" Margin="0,20,0,0">Přidat</Button>
             <Button Command="{Binding RemoveCommand}" x:Name="btnDelete" Margin="0,5,0,0">Odstranit</Button>
             <Button Command="{Binding EditCommand}" x:Name="btnUpdate" Margin="0,5,0,0">Upravit</Button>
         </StackPanel>

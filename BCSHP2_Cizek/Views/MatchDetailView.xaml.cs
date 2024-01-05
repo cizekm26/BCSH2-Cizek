@@ -1,5 +1,4 @@
-﻿using BCSH2_Cizek.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,21 +16,14 @@ using TeamsLibrary;
 namespace BCSH2_Cizek.Views
 {
     /// <summary>
-    /// Interaction logic for PlayersView.xaml
+    /// Interaction logic for MatchDetailView.xaml
     /// </summary>
-    public partial class PlayersView : UserControl
+    public partial class MatchDetailView : Window
     {
-        private readonly PlayersViewModel viewModel;
-        public PlayersView(PlayersViewModel viewModel)
+        public MatchDetailView(Match match)
         {
-            this.viewModel = viewModel;
-            DataContext = viewModel;
             InitializeComponent();
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            viewModel.OnSelectedItemChanged();
+            DataContext = match;
         }
     }
 }

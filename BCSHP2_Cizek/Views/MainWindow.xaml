@@ -5,32 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BCSHP2_Cizek"
         mc:Ignorable="d"
-        Title="Správce týmů" Height="500" Width="800">
+        Title="Správce týmů" Height="500" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="ListTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        <Style x:Key="LabelText" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="400" />
-
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260*" />
             <ColumnDefinition Width="520*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="1" Margin="0,0,0,0" Grid.RowSpan="2">Týmy</Label>
-        <DataGrid Grid.Column="1" Grid.Row="1" x:Name="lstTeams" AutoGenerateColumns="False" ItemsSource="{Binding Teams}" SelectionChanged="ListView_SelectionChanged" SelectedValue="{Binding SelectedTeam, Mode=TwoWay}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Název" Width="200"/>
-                <DataGridTextColumn Binding="{Binding Competition}" Header="Soutěž" Width="200"/>
-                <DataGridTextColumn Binding="{Binding Ranking}" Header="Umístění" Width="50"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Label Style="{StaticResource ResourceKey=ListTitle}" Grid.Column="1" Grid.RowSpan="2">Týmy</Label>
+        <ListView Grid.Column="1" Grid.Row="1" x:Name="lstTeams" Margin="0,5,0,0" ItemsSource="{Binding Teams}" SelectionChanged="ListView_SelectionChanged" SelectedValue="{Binding SelectedTeam, Mode=TwoWay}">
+            <ListView.View>
+                <GridView x:Name="gridView" ColumnHeaderToolTip="Soupiska">
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Název" Width="210"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Competition}" Header="Soutěž" Width="210"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Ranking}" Header="Umístění" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <StackPanel Grid.Row="1" Margin="5,0,10,0">
-            <Label>Název:</Label>
+            <Label Style="{StaticResource ResourceKey=LabelText}">Název:</Label>
             <TextBox x:Name="txtName" Text="{Binding Name}" />
-            <Label>Soutěž:</Label>
+            <Label Style="{StaticResource ResourceKey=LabelText}">Soutěž:</Label>
             <TextBox x:Name="textCompetition" Text="{Binding Competition}"/>
-            <Label>Umístění:</Label>
+            <Label Style="{StaticResource ResourceKey=LabelText}">Umístění:</Label>
             <TextBox x:Name="textRanking" Text="{Binding Ranking}"/>
             <Button Command="{Binding AddCommand}" x:Name="btnAdd" Margin="0,50,0,0">Přidat</Button>
             <Button Command="{Binding RemoveCommand}" x:Name="btnDelete" Margin="0,5,0,0">Smazat</Button>

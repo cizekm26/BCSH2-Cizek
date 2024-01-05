@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace TeamsLibrary
 {
     public class Team:INotifyPropertyChanged
     {
+        private int id;
         private string name;
         private int ranking;
         private string competition;
@@ -16,14 +18,26 @@ namespace TeamsLibrary
         private List<Player> player;
 
 
-        public int ID { get; set; }
-        public string Name { get => name; set { name=value; OnPropertyChanged(nameof(Name)); } }
-        public int Ranking { get => ranking; set { ranking=value; OnPropertyChanged(nameof(Ranking)); } }
-        public string Competition { get => competition; set { competition=value; OnPropertyChanged(nameof(Competition)); } }
+        public int ID { 
+            get => id; set { id=value; OnPropertyChanged(nameof(ID)); }
+        }
+        public string Name { 
+            get => name; set { name=value; OnPropertyChanged(nameof(Name)); }
+        }
+        public int Ranking { 
+            get => ranking; set { ranking=value; OnPropertyChanged(nameof(Ranking)); }
+        }
+        public string Competition { 
+            get => competition; set { competition=value; OnPropertyChanged(nameof(Competition)); }
+        }
 
-        public List<Match> Matches { get => match; set { match = value; OnPropertyChanged(nameof(Matches)); } }
+        public List<Match> Matches { 
+            get => match; set { match = value; OnPropertyChanged(nameof(Matches)); }
+        }
 
-        public List<Player> Players { get => player; set { player = value; OnPropertyChanged(nameof(Players)); } }
+        public List<Player> Players { 
+            get => player; set { player = value; OnPropertyChanged(nameof(Players)); }
+        }
 
         public Team(string name, int ranking, string competition)
         {

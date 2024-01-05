@@ -25,10 +25,9 @@ namespace BCSH2_Cizek.Views
         public MatchesView(MatchesViewModel viewModel)
         {
             this.viewModel = viewModel;
-            DataContext = this.viewModel;
             InitializeComponent();
+            DataContext = this.viewModel;
             comboType.ItemsSource = Enum.GetValues(typeof(MatchType));
-            textDate.SelectedDate = DateTime.Now;
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -38,7 +37,8 @@ namespace BCSH2_Cizek.Views
 
         private void TextGoals_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
+            // po změně počtu gólů se znovu naplní seznam gólů (dataGrid)
+            TextBox? textBox = sender as TextBox;
             if (textBox != null && textBox.Text.Length > 0)
             {
                 viewModel.OnTextGoalsChanged(textBox.Text);

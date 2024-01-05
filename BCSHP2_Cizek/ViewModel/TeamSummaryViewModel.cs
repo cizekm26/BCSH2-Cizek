@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using BCSH2_Cizek.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,14 @@ namespace BCSH2_Cizek.ViewModel
         private Team team;
 
         [ObservableProperty]
-        private ObservableCollection<Player> playersTeam;
+        private ObservableCollection<Player> teamPlayers;
 
         [ObservableProperty]
-        private ObservableCollection<Match> matchesTeam;
+        private ObservableCollection<Match> teamMatches;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ShowMatchCommand))]
+        private Match selectedMatch;
 
         private readonly ITeamRepository _teamRepository;
 
@@ -29,27 +34,39 @@ namespace BCSH2_Cizek.ViewModel
         {
             this.team = team;
             _teamRepository = teamRepository;
-            playersTeam = new ObservableCollection<Player>(team.Players);
-            matchesTeam = new ObservableCollection<Match>(team.Matches);
+            teamPlayers = new ObservableCollection<Player>(team.Players);
+            teamMatches = new ObservableCollection<Match>(team.Matches);
+        }
+
+        [RelayCommand(CanExecute = nameof(MatchIsSelected))]
+        public void ShowMatch()
+        {
+            MatchDetailView view = new MatchDetailView(SelectedMatch);
+            view.Show();
         }
 
         [RelayCommand]
         public void RefreshMatches()
         {
-            MatchesTeam.Clear();
-            foreach (Match match in team.Matches) {
-                MatchesTeam.Add(match);
+            TeamMatches.Clear();
+            foreach (Match match in Team.Matches) {
+                TeamMatches.Add(match);
             }
         }
 
         [RelayCommand]
         public void RefreshPlayers()
         {
-            PlayersTeam.Clear();
+            TeamPlayers.Clear();
             foreach (Player player in Team.Players)
             {
-                PlayersTeam.Add(player);
+                TeamPlayers.Add(player);
             }
+        }
+
+        public bool MatchIsSelected()
+        {
+            return SelectedMatch!= null;
         }
     }
 }
